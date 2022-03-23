@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "694783723637",
+    "project_id": "mysololife-f6275",
+    "storage_bucket": "mysololife-f6275.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:694783723637:android:ad27488f8848db9b0d503c",
+        "android_client_info": {
+          "package_name": "com.youngsun.mysololife"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "694783723637-6lkjb4nki2cm3sdf202a351ubad44llq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWJa3LS9tHH5YMgd5dJLEiwD6pj7X3Oww"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "694783723637-6lkjb4nki2cm3sdf202a351ubad44llq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
