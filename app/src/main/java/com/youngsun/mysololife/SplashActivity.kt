@@ -12,11 +12,11 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
 
-        // 3초 후 IntroActivity로 Intent를 통하여 이동.
+        // 2초 후 IntroActivity로 Intent를 통하여 이동.
         Handler().postDelayed({
             val intent = Intent( this, IntroActivity :: class.java )
             startActivity(intent)
             finish()
-        },3000)
+        },1500)
     }
 }
