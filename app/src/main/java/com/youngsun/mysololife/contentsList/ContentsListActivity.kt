@@ -89,7 +89,7 @@ class ContentsListActivity : AppCompatActivity() {
         }
          */
 
-        getBookmarkData()
+        getBookmarkId()
     }
 
     // 초기 테스트 용 컨텐츠 데이터를 리스트에 수동으로 삽입.
@@ -327,8 +327,8 @@ class ContentsListActivity : AppCompatActivity() {
 
     }
 
-    // 사용자 북마크 정보 가져오기
-    private fun getBookmarkData() {
+    // 사용자 북마크 게시글 ID 정보 가져오기
+    private fun getBookmarkId() {
         val getBookmarkRef = FbRef.bookmarkRef.child( FbAuth.getUid() )
 
         val getBookmarkListener = object : ValueEventListener {
@@ -337,8 +337,8 @@ class ContentsListActivity : AppCompatActivity() {
                 bookmarkIdList.clear()
 
                 for( dataModel in dataSnapshot.children ) {
-                    Log.d("getBookmarkData", dataModel.key.toString() ) // 컨텐츠 key 값.
-                    Log.d("getBookmarkData", dataModel.toString() )
+                    Log.d("getBookmarkId", dataModel.key.toString() ) // 컨텐츠 key 값.
+                    Log.d("getBookmarkId", dataModel.toString() )
 
                     bookmarkIdList.add( dataModel.key.toString() )
                 }
