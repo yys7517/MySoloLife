@@ -1,5 +1,6 @@
 package com.youngsun.mysololife.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.youngsun.mysololife.R
+import com.youngsun.mysololife.contentsList.ContentsListActivity
 import com.youngsun.mysololife.databinding.FragmentTipBinding
 
 
@@ -21,6 +23,11 @@ class TipFragment : Fragment() {
         binding.bookmarkTab.setOnClickListener { it.findNavController().navigate(R.id.action_tipFragment_to_bookmarkFragment)  }
         binding.storeTab.setOnClickListener {  it.findNavController().navigate(R.id.action_tipFragment_to_storeFragment) }
         binding.talkTab.setOnClickListener {  it.findNavController().navigate(R.id.action_tipFragment_to_talkFragment) }
+
+        binding.categoryAll.setOnClickListener {
+            val intent = Intent( context, ContentsListActivity::class.java )
+            startActivity(intent)
+        }
 
         return binding.root
     }

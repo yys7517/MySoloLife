@@ -4,5 +4,6 @@ package com.youngsun.mysololife.contentsList
 // 제목
 data class ContentModel (
     val title : String = "",
-    val imageUrl : String = ""
+    val imageUrl : String = "",
+    val webUrl : String = ""
         )
