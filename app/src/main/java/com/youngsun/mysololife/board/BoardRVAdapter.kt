@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.youngsun.mysololife.R
 import com.youngsun.mysololife.contentsList.ContentShowActivity
+import com.youngsun.mysololife.utils.FbRef
 
 // 게시글 RV Adapter
 class BoardRVAdapter(
@@ -41,7 +42,28 @@ class BoardRVAdapter(
             boardContents.text = item.contents
             boardWriteTime.text = item.time
 
-            val boardImg : ImageView = itemView.findViewById(R.id.boardRVImg)
+            // 업로드 된 이미지가 있다면 ?
+            val boardImageView : ImageView = itemView.findViewById(R.id.boardRVImg)
+
+            // Firebase Storage 의 게시글 key 값에 따라 게시글 이미지가 있는지 확인 해보자.
+            val boardImgRef = FbRef.storageRef.child("${key}.png")
+
+            boardImgRef.downloadUrl.addOnSuccessListener {
+                // 게시글의 key 값에 따른 이미지가 다운로드 되었다면 ?
+
+                // 1. 이미지 뷰가 보이게 하자.
+                boardImageView.visibility = View.VISIBLE
+
+                // 2. 이미지를 다운로드해서 Glide를 통해 ImageView에 적용한다.
+                Glide
+                    .with(context)
+                    .load( it )
+                    .into(boardImageView)
+
+            }.addOnFailureListener {
+                // 이미지가 없다면
+                // 아무행위도 하지 않는다.
+            }
 
             // 게시글 클릭 시 - 게시글 보여주기 Activity
             itemView.setOnClickListener {

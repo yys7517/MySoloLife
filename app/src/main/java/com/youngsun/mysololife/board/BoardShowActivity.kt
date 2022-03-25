@@ -4,7 +4,10 @@ package com.youngsun.mysololife.board
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
+import com.bumptech.glide.Glide
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -39,12 +42,35 @@ class BoardShowActivity : AppCompatActivity() {
 //        contentsArea.text = contents.toString()
 //        timeArea.text = time.toString()
 
-        // 두 번째 방법 - 게시글 key 를 통해 Firebase 로 받아오는 방법.
         val key = intent.getStringExtra("key").toString()
+
+        // 두 번째 방법 - 게시글 key 를 통해 Firebase 로 받아오는 방법.
         getBoardData( key )
 
         // 이미지가 있다면 ? -> 이미지 받아오기
+        getBoardImgData( key )
 
+    }
+
+    private fun getBoardImgData(key: String) {
+        val boardImageView = binding.boardImg
+
+        val boardImgRef = FbRef.storageRef.child("${key}.png")
+
+        boardImgRef.downloadUrl.addOnSuccessListener {
+            // 게시글의 key 값에 따른 이미지가 다운로드 되었다면 ?
+            // 이미지를 다운로드해서 Glide를 통해 ImageView에 적용한다.
+
+            binding.boardImg.visibility = View.VISIBLE
+
+            Glide
+                .with(this)
+                .load( it )
+                .into(boardImageView)
+
+        }.addOnFailureListener {
+            // 게시글의 key 값에 따른 이미지가 다운로드 없다면 ? default 값으로.
+        }
     }
 
     private fun getBoardData( key : String ) {
