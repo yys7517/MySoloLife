@@ -29,7 +29,6 @@ class BookmarkFragment : Fragment() {
     private val itemKeyList = ArrayList<String>()       // 게시글 Key 리스트
 
     private val bookmarkIdList = mutableListOf<String>()    // 북마크 된 게시글 key 리스트
-    private val bookmarkItems = ArrayList<ContentModel>()       // 게시글 리스트
 
     override fun onCreateView(
         inflater: LayoutInflater,
