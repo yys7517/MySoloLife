@@ -23,8 +23,6 @@ class BoardWriteActivity : AppCompatActivity() {
     private lateinit var binding : ActivityBoardWriteBinding
     private val TAG = BoardWriteActivity::class.java.simpleName
 
-    private val storage = Firebase.storage
-
     private lateinit var boardImageView: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,7 +82,6 @@ class BoardWriteActivity : AppCompatActivity() {
             // images \ 게시글 key \ Image5
 
             finish()
-
         }
     }
 
@@ -114,7 +111,6 @@ class BoardWriteActivity : AppCompatActivity() {
 
         }.addOnSuccessListener { taskSnapshot ->
             // 업로드 성공 시
-
         }
     }
 }

@@ -62,7 +62,7 @@ class BoardRVAdapter(
 
             }.addOnFailureListener {
                 // 이미지가 없다면
-                // 아무행위도 하지 않는다.
+                boardImageView.visibility = View.GONE
             }
 
             // 게시글 클릭 시 - 게시글 보여주기 Activity

@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -33,6 +34,7 @@ class TalkFragment : Fragment() {
 
     private lateinit var boardRVAdapter : BoardRVAdapter
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate( inflater, R.layout.fragment_talk , container, false )
 
@@ -49,6 +51,8 @@ class TalkFragment : Fragment() {
 
         // 전체 게시글 받아오기.
         getBoardData()
+
+        setUpSwipeRefresh() // 스와이프 이벤트 생성 메서드 (게시글 목록 새로고침)
 
         // 글 쓰기 버튼 클릭 시
         binding.fabWrite.setOnClickListener {
@@ -82,7 +86,6 @@ class TalkFragment : Fragment() {
 
                 // Adapter 의 DataSet이 변경되었다면, 최신화 해준다.
                 boardRVAdapter.notifyDataSetChanged()
-
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -92,5 +95,17 @@ class TalkFragment : Fragment() {
         FbRef.boardRef.addValueEventListener(getBoardListener)
     }
 
+    // 스와이프 이벤트 생성 메서드
+    private fun setUpSwipeRefresh() {
+        binding.swipeRefresh.setOnRefreshListener {
+            binding.swipeRefresh.isRefreshing = false       // 스와이프 표시 제거
+            getBoardData()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getBoardData()
+    }
 
 }
