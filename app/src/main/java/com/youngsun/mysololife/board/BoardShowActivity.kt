@@ -1,8 +1,11 @@
 package com.youngsun.mysololife.board
 
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +13,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.google.firebase.database.DataSnapshot
@@ -17,6 +21,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.youngsun.mysololife.R
+import com.youngsun.mysololife.auth.IntroActivity
 import com.youngsun.mysololife.databinding.ActivityBoardShowBinding
 import com.youngsun.mysololife.utils.FbAuth
 import com.youngsun.mysololife.utils.FbRef
@@ -59,15 +64,18 @@ class BoardShowActivity : AppCompatActivity() {
         // 두 번째 방법 - 게시글 key 를 통해 Firebase 로 받아오는 방법.
         getBoardData( key )
 
-        authUid = FbAuth.getUid()
-
         // 이미지가 있다면 ? -> 이미지 받아오기
         getBoardImgData( key )
+
+        authUid = FbAuth.getUid()
+
 
         binding.boardSettingIcon.setOnClickListener {
             // 다이얼로그 창 띄워서 게시글 수정, 삭제 버튼 보여주기.
             BoardDialogSetting()
         }
+
+
 
     }
 
@@ -89,8 +97,16 @@ class BoardShowActivity : AppCompatActivity() {
             if( boardUid == authUid ) {
                 Toast.makeText(this, "게시글을 수정합니다.", Toast.LENGTH_SHORT).show()
 
-            } else{
+                val intent = Intent( this, BoardEditActivity::class.java )
+                // 기존 게시글의 제목, 내용, 이미지 정보를 수정 페이지에 넘겨줘야 한다.
+                // 게시글의 key 값을 넘겨주어 key 값을 바탕으로 정보를 가져오게 하자
+                intent.putExtra("key", key)
+                startActivity(intent)
 
+                alerDialog.dismiss()
+
+            } else{
+                Toast.makeText(this, "게시글 작성자만 게시글을 수정하거나 삭제할 수 있습니다.", Toast.LENGTH_SHORT).show()
             }
 
         }
@@ -134,9 +150,11 @@ class BoardShowActivity : AppCompatActivity() {
 
             }
             else {
-
+                Toast.makeText(this, "게시글 작성자만 게시글을 수정하거나 삭제할 수 있습니다.", Toast.LENGTH_SHORT).show()
             }
         }
+
+
     }
 
     private fun getBoardImgData(key: String) {
@@ -150,17 +168,19 @@ class BoardShowActivity : AppCompatActivity() {
 
             binding.boardImg.visibility = View.VISIBLE
 
-            Glide
-                .with(this)
-                .load( it )
-                .into(boardImageView)
+            if( !this.isFinishing ) {
+                Glide
+                    .with(this)
+                    .load( it )
+                    .into(boardImageView)
+            }
 
         }.addOnFailureListener {
             // 게시글의 key 값에 따른 이미지가 다운로드 없다면 ? default 값으로.
         }
     }
 
-    private fun getBoardData( key : String ) {
+    private fun getBoardData( key : String )  {
         val getBoardListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
@@ -174,6 +194,12 @@ class BoardShowActivity : AppCompatActivity() {
                     binding.boardWriteTime.text = board!!.time
 
                     boardUid = board!!.uid
+
+                    // 내가 쓴 글이면 게시글 수정 / 삭제 버튼이 보이게.
+                    if( boardUid == FbAuth.getUid() ) {
+                        binding.boardSettingIcon.visibility = View.VISIBLE
+                    }
+
                 }catch ( e : Exception ) {
                     Log.d(TAG, "삭제완료")
                 }
@@ -186,4 +212,16 @@ class BoardShowActivity : AppCompatActivity() {
         }
         FbRef.boardRef.child(key).addValueEventListener(getBoardListener)
     }
+
+    // 수정을 마친 후 돌아왔을 때, Firebase Storage 에서 이미지 파일을 지웠다가 새로 업로드하기 때문에
+    // 딜레이를 주고 게시글 정보를 새로 고침 해준다.
+    override fun onResume() {
+        super.onResume()
+        Handler().postDelayed({
+            getBoardData(key)
+            getBoardImgData(key)
+        },4000)
+
+    }
+
 }

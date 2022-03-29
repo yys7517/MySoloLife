@@ -2,6 +2,7 @@ package com.youngsun.mysololife.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -103,9 +104,13 @@ class TalkFragment : Fragment() {
         }
     }
 
+    // Firebase Storage 에서 이미지를 가져오는 딜레이가 좀 있다.
+    // 따라서 게시글이 작성되고 보여지는 Fragment 게시글 목록을 새로고침하는데 4000ms 딜레이를 주었다.
     override fun onResume() {
         super.onResume()
-        getBoardData()
-    }
+        Handler().postDelayed( {
+            getBoardData()
+        }, 4000 )
 
+    }
 }

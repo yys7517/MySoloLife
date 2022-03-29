@@ -10,7 +10,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.youngsun.mysololife.R
-import com.youngsun.mysololife.contentsList.ContentShowActivity
 import com.youngsun.mysololife.utils.FbRef
 
 // 게시글 RV Adapter
@@ -79,7 +78,7 @@ class BoardRVAdapter(
                 // 두 번째 방법 - Firebase 에 있는 board 에 게시글 key 값으로 받아오는 방법.
                 intent.putExtra("key", key )
 
-                context.startActivity( intent )
+                itemView.context.startActivity( intent )
             }
         }
     }

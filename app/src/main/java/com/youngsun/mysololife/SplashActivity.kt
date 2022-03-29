@@ -18,13 +18,14 @@ class SplashActivity : AppCompatActivity() {
         auth = Firebase.auth
 
         // 현재 사용자의 uid가 없다면, 로그인/회원가입을 위해 IntroActivity 로 이동.
-        if( auth.currentUser!!.uid == null ) {
+        if( auth.currentUser?.uid == null ) {
             Handler().postDelayed({
                 val intent = Intent( this, IntroActivity :: class.java )
                 startActivity(intent)
                 finish()
             },1500)
         }
+
         // 사용자가 App을 사용한 적이 있다면, MainActivity 로 이동.
         else {
             Handler().postDelayed({
