@@ -183,6 +183,7 @@
                 android:background="@android:color/transparent"
                 android:hint="댓글을 입력해주세요"
                 android:padding="10dp"
+                android:imeOptions="actionDone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

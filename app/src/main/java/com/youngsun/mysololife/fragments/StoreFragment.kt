@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.youngsun.mysololife.R
@@ -22,6 +24,11 @@ class StoreFragment : Fragment() {
         binding.bookmarkTab.setOnClickListener { it.findNavController().navigate(R.id.action_storeFragment_to_bookmarkFragment)  }
         binding.talkTab.setOnClickListener {  it.findNavController().navigate(R.id.action_storeFragment_to_talkFragment) }
         binding.tipTab.setOnClickListener {  it.findNavController().navigate(R.id.action_storeFragment_to_tipFragment) }
+
+        val webView : WebView = binding.storeWebView
+        webView.webViewClient = WebViewClient()
+
+        webView.loadUrl("https://oneroommaking.com/")
 
         return binding.root
     }
