@@ -30,6 +30,7 @@
                 tools:layout_editor_absoluteX="10dp" />
 
             <ImageView
+                android:visibility="gone"
                 android:id="@+id/boardSettingIcon"
                 android:layout_width="30dp"
                 android:layout_height="40dp"
